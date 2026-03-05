@@ -44,6 +44,23 @@ app.get("/api/movies/:id", (req, res) => {
   res.json(movie);
 });
 
+app.post("/api/movies", express.json(), (req, res) => {
+  const { title, year, genre, rating } = req.body;
+  if (!title || !year || !genre || !rating) {
+    res.status(400).json({ error: "Missing required fields" });
+    return;
+  }
+  const newMovie = {
+    id: movies.length + 1,
+    title,
+    year,
+    genre,
+    rating,
+  };
+  movies.push(newMovie);
+  res.status(201).json(newMovie);
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
